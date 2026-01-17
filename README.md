@@ -58,8 +58,8 @@ npm run docker:dev
 При изменении файлов в `src/` сервер автоматически перезапускается благодаря hot reload.
 
 Сервисы:
-- API: `http://localhost:5000`
-- Swagger: `http://localhost:5000/api`
+- API: `http://localhost:5001`
+- Swagger: `http://localhost:5001/api`
 - PostgreSQL: `localhost:5432`
 - MinIO Console: `http://localhost:9001` (minioadmin/minioadmin)
 - MinIO API: `http://localhost:9000`
@@ -100,8 +100,8 @@ docker-compose logs -f app
 
 **Приложение будет доступно:**
 
-- API: `http://localhost:5000`
-- Swagger документация: `http://localhost:5000/api`
+- API: `http://localhost:5001`
+- Swagger документация: `http://localhost:5001/api`
 - MinIO Console: `http://localhost:9001` (minioadmin/minioadmin)
 - MinIO API: `http://localhost:9000`
 
