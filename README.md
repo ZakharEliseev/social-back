@@ -42,8 +42,8 @@ docker run -d --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=socia
 npm run start:dev
 ```
 
-Приложение будет доступно на `http://localhost:3000`
-Swagger документация: `http://localhost:3000/api`
+Приложение будет доступно на `http://localhost:5000`
+Swagger документация: `http://localhost:5000/api`
 
 ### Docker
 
@@ -58,8 +58,8 @@ npm run docker:dev
 При изменении файлов в `src/` сервер автоматически перезапускается благодаря hot reload.
 
 Сервисы:
-- API: `http://localhost:3000`
-- Swagger: `http://localhost:3000/api`
+- API: `http://localhost:5000`
+- Swagger: `http://localhost:5000/api`
 - PostgreSQL: `localhost:5432`
 - MinIO Console: `http://localhost:9001` (minioadmin/minioadmin)
 - MinIO API: `http://localhost:9000`
@@ -100,8 +100,8 @@ docker-compose logs -f app
 
 **Приложение будет доступно:**
 
-- API: `http://localhost:3000`
-- Swagger документация: `http://localhost:3000/api`
+- API: `http://localhost:5000`
+- Swagger документация: `http://localhost:5000/api`
 - MinIO Console: `http://localhost:9001` (minioadmin/minioadmin)
 - MinIO API: `http://localhost:9000`
 
@@ -244,7 +244,7 @@ src/
 ### Загрузка аватара
 
 ```bash
-curl -X POST http://localhost:3000/api/v1/users/profile/avatar \
+curl -X POST http://localhost:5000/api/v1/users/profile/avatar \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -F "avatar=@/path/to/image.jpg"
 ```
@@ -264,7 +264,7 @@ GET /api/v1/files/avatars/550e8400-e29b-41d4-a716-446655440000.jpg
 ### Удаление аватара
 
 ```bash
-curl -X DELETE http://localhost:3000/api/v1/users/profile/avatar \
+curl -X DELETE http://localhost:5000/api/v1/users/profile/avatar \
   -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
 
@@ -283,7 +283,7 @@ curl -X DELETE http://localhost:3000/api/v1/users/profile/avatar \
 ## Переменные окружения
 
 - `NODE_ENV` - окружение (development/production)
-- `PORT` - порт приложения (по умолчанию 3000)
+- `PORT` - порт приложения (по умолчанию 5000)
 - `DB_HOST` - хост PostgreSQL
 - `DB_PORT` - порт PostgreSQL (по умолчанию 5432)
 - `DB_USERNAME` - имя пользователя БД
