@@ -3,11 +3,13 @@ import { IsString, IsNotEmpty, MaxLength } from 'class-validator';
 
 export class CreateCommentDto {
   @ApiProperty({
-    example: 'Great post!',
-    description: 'Comment text',
+    example: 'Отличный пост!',
+    description: 'Текст комментария',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(1000)
+  @IsString({ message: 'Комментарий должен быть строкой' })
+  @IsNotEmpty({ message: 'Комментарий не может быть пустым' })
+  @MaxLength(1000, {
+    message: 'Комментарий не может быть длиннее 1000 символов',
+  })
   text: string;
 }
