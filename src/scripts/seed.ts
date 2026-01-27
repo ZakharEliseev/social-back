@@ -69,41 +69,13 @@ async function seed() {
 
     // Создаем посты для некоторых пользователей
     const postsData = [
-      {
-        author: users[0],
-        title: 'Welcome to my social!',
-        text: 'This is my first post. Hope you enjoy reading!',
-      },
-      {
-        author: users[1],
-        title: 'My thoughts on TypeScript',
-        text: 'TypeScript is amazing for large projects.',
-      },
-      {
-        author: users[2],
-        title: 'Learning NestJS',
-        text: 'NestJS makes building scalable applications easy.',
-      },
-      {
-        author: users[3],
-        title: 'Database design tips',
-        text: 'Always normalize your database schema.',
-      },
-      {
-        author: users[4],
-        title: 'API best practices',
-        text: 'RESTful APIs should follow HTTP standards.',
-      },
-      {
-        author: users[0],
-        title: 'Second post from Alice',
-        text: 'Another interesting topic to discuss.',
-      },
-      {
-        author: users[1],
-        title: 'Testing strategies',
-        text: 'Unit tests and integration tests are crucial.',
-      },
+      { author: users[0], text: 'This is my first post. Hope you enjoy reading!' },
+      { author: users[1], text: 'TypeScript is amazing for large projects.' },
+      { author: users[2], text: 'NestJS makes building scalable applications easy.' },
+      { author: users[3], text: 'Always normalize your database schema.' },
+      { author: users[4], text: 'RESTful APIs should follow HTTP standards.' },
+      { author: users[0], text: 'Another interesting topic to discuss.' },
+      { author: users[1], text: 'Unit tests and integration tests are crucial.' },
     ];
 
     const posts = await Promise.all(

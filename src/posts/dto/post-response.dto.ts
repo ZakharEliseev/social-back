@@ -23,9 +23,6 @@ export class PostDto {
   @ApiProperty({ example: 1 })
   id: number;
 
-  @ApiProperty({ example: 'My Post Title' })
-  title: string;
-
   @ApiProperty({ example: 'Post content text' })
   text: string;
 

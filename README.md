@@ -161,6 +161,7 @@ docker-compose logs -f minio
 ### Feed
 
 - `GET /api/v1/feed?limit=20&offset=0` - Лента (посты тех, на кого я подписан) (JWT)
+- `GET /api/v1/feed/all?limit=20&offset=0` - Все посты в системе, глобальная лента (JWT)
 
 ### Files
 

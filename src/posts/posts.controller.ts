@@ -49,7 +49,6 @@ export class PostsController {
   ): PostDto {
     return {
       id: post.id,
-      title: post.title,
       text: post.text,
       createdAt: post.createdAt.toISOString(),
       author: {

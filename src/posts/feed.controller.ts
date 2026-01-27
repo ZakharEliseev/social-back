@@ -40,7 +40,6 @@ export class FeedController {
   ): FeedPostDto {
     return {
       id: post.id,
-      title: post.title,
       text: post.text,
       createdAt: post.createdAt.toISOString(),
       author: {
@@ -60,6 +59,26 @@ export class FeedController {
         },
       })),
     };
+  }
+
+  @Get('all')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Все посты в системе (глобальная лента)',
+  })
+  @ApiResponse({ status: 200, type: [FeedPostDto] })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async getAllPosts(
+    @Query() pagination: PaginationQueryDto,
+    @CurrentUser() user: CurrentUserPayload,
+  ) {
+    const posts = await this.postsService.getAllPosts({
+      limit: pagination.limit,
+      offset: pagination.offset,
+    });
+    const enrichedPosts =
+      await this.postsService.enrichPostsWithLikesAndComments(posts, user.id);
+    return enrichedPosts.map((p) => this.toFeedPostDto(p));
   }
 
   @Get()

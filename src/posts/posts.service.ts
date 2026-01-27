@@ -92,6 +92,23 @@ export class PostsService {
     return posts;
   }
 
+  async getAllPosts(
+    options?: { limit?: number; offset?: number },
+  ): Promise<Post[]> {
+    const limit = options?.limit ?? 20;
+    const offset = options?.offset ?? 0;
+
+    const posts = await this.postRepository.find({
+      relations: ['author'],
+      order: { createdAt: 'DESC' },
+      take: limit,
+      skip: offset,
+    });
+
+    this.logger.log(`Retrieved all posts (count=${posts.length})`);
+    return posts;
+  }
+
   async getFeed(
     userId: number,
     options?: { limit?: number; offset?: number },

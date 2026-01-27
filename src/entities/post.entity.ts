@@ -21,9 +21,6 @@ export class Post {
   @Column({ name: 'author_id' })
   authorId: number;
 
-  @Column()
-  title: string;
-
   @Column('text')
   text: string;
 
