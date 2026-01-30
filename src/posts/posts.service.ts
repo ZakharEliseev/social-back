@@ -280,32 +280,11 @@ export class PostsService {
       commentsCounts.map((item) => [item.postId, parseInt(item.count)]),
     );
 
-    // Получаем последние комментарии для каждого поста
-    const recentComments = await this.commentRepository
-      .createQueryBuilder('comment')
-      .innerJoin('comment.post', 'post')
-      .leftJoinAndSelect('comment.user', 'user')
-      .where('comment.postId IN (:...postIds)', { postIds })
-      .orderBy('comment.createdAt', 'DESC')
-      .getMany();
-
-    const commentsByPostId = new Map<number, Comment[]>();
-    for (const comment of recentComments) {
-      if (!commentsByPostId.has(comment.postId)) {
-        commentsByPostId.set(comment.postId, []);
-      }
-      const postComments = commentsByPostId.get(comment.postId);
-      if (postComments && postComments.length < 5) {
-        postComments.push(comment);
-      }
-    }
-
     // Обогащаем посты
     return posts.map((post) => {
       (post as any).likesCount = likesCountMap.get(post.id) || 0;
       (post as any).isLiked = likedPostIds.has(post.id);
       (post as any).commentsCount = commentsCountMap.get(post.id) || 0;
-      (post as any).comments = commentsByPostId.get(post.id) || [];
       return post;
     });
   }

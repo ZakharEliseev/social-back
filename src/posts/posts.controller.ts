@@ -44,7 +44,6 @@ export class PostsController {
       likesCount?: number;
       isLiked?: boolean;
       commentsCount?: number;
-      comments?: Comment[];
     },
   ): PostDto {
     return {
@@ -58,9 +57,6 @@ export class PostsController {
       likesCount: (post as any).likesCount ?? 0,
       isLiked: (post as any).isLiked ?? false,
       commentsCount: (post as any).commentsCount ?? 0,
-      comments: (post as any).comments?.map((c: Comment) =>
-        this.toCommentDto(c),
-      ),
     };
   }
 

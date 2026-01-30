@@ -21,7 +21,6 @@ import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { PostsService } from './posts.service';
 import { FeedPostDto } from './dto/post-response.dto';
 import { Post as PostEntity } from '../entities/post.entity';
-import { Comment } from '../entities/comment.entity';
 
 @ApiTags('feed')
 @Controller('api/v1/feed')
@@ -35,7 +34,6 @@ export class FeedController {
       likesCount?: number;
       isLiked?: boolean;
       commentsCount?: number;
-      comments?: Comment[];
     },
   ): FeedPostDto {
     return {
@@ -49,15 +47,6 @@ export class FeedController {
       likesCount: (post as any).likesCount ?? 0,
       isLiked: (post as any).isLiked ?? false,
       commentsCount: (post as any).commentsCount ?? 0,
-      comments: (post as any).comments?.map((c: Comment) => ({
-        id: c.id,
-        text: c.text,
-        createdAt: c.createdAt.toISOString(),
-        author: {
-          id: c.user?.id ?? c.userId,
-          username: c.user?.username ?? '',
-        },
-      })),
     };
   }
 

@@ -48,13 +48,6 @@ export class PostDto {
 
   @ApiProperty({ example: 3, description: 'Number of comments' })
   commentsCount: number;
-
-  @ApiProperty({
-    type: [CommentDto],
-    description: 'Recent comments (last 5)',
-    required: false,
-  })
-  comments?: CommentDto[];
 }
 
 export class FeedPostDto extends PostDto {}
