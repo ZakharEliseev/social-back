@@ -63,7 +63,7 @@ export class FeedController {
   ) {
     const posts = await this.postsService.getAllPosts({
       limit: pagination.limit,
-      offset: pagination.offset,
+      offset: pagination.getOffset(),
     });
     const enrichedPosts =
       await this.postsService.enrichPostsWithLikesAndComments(posts, user.id);
@@ -84,7 +84,7 @@ export class FeedController {
   ) {
     const posts = await this.postsService.getFeed(user.id, {
       limit: pagination.limit,
-      offset: pagination.offset,
+      offset: pagination.getOffset(),
     });
     const enrichedPosts =
       await this.postsService.enrichPostsWithLikesAndComments(posts, user.id);

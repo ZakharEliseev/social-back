@@ -14,8 +14,15 @@ import { ERROR_MESSAGES } from '../common/constants';
 export interface UserSearchResult {
   id: number;
   username: string;
+  email: string;
+  bio: string | null;
   avatar: string | null;
+  postsCount: number;
+  followersCount: number;
+  followingCount: number;
   isFollowing: boolean;
+  isOwnProfile: boolean;
+  createdAt: Date;
 }
 
 export interface UserProfileResult {
@@ -61,7 +68,7 @@ export class UsersService {
           : {
               id: Not(activeUserId),
             },
-        select: ['id', 'username', 'avatar'],
+        select: ['id', 'username', 'email', 'bio', 'avatar', 'createdAt'],
         take: 50,
       }),
       this.followerRepository.find({
@@ -71,12 +78,56 @@ export class UsersService {
     ]);
 
     const followingIds = new Set(following.map((f) => f.followingId));
+    const userIds = users.map((u) => u.id);
+
+    // Получаем счетчики для всех найденных пользователей
+    const [postsCounts, followersCounts, followingCounts] = await Promise.all([
+      this.postRepository
+        .createQueryBuilder('post')
+        .select('post.authorId', 'userId')
+        .addSelect('COUNT(*)', 'count')
+        .where('post.authorId IN (:...userIds)', { userIds })
+        .groupBy('post.authorId')
+        .getRawMany(),
+      this.followerRepository
+        .createQueryBuilder('follower')
+        .select('follower.followingId', 'userId')
+        .addSelect('COUNT(*)', 'count')
+        .where('follower.followingId IN (:...userIds)', { userIds })
+        .groupBy('follower.followingId')
+        .getRawMany(),
+      this.followerRepository
+        .createQueryBuilder('follower')
+        .select('follower.followerId', 'userId')
+        .addSelect('COUNT(*)', 'count')
+        .where('follower.followerId IN (:...userIds)', { userIds })
+        .groupBy('follower.followerId')
+        .getRawMany(),
+    ]);
+
+    // Создаем Map для быстрого доступа к счетчикам
+    const postsCountMap = new Map(
+      postsCounts.map((item) => [item.userId, parseInt(item.count)]),
+    );
+    const followersCountMap = new Map(
+      followersCounts.map((item) => [item.userId, parseInt(item.count)]),
+    );
+    const followingCountMap = new Map(
+      followingCounts.map((item) => [item.userId, parseInt(item.count)]),
+    );
 
     const result = users.map((user) => ({
       id: user.id,
       username: user.username,
+      email: user.email,
+      bio: user.bio,
       avatar: user.avatar,
+      postsCount: postsCountMap.get(user.id) || 0,
+      followersCount: followersCountMap.get(user.id) || 0,
+      followingCount: followingCountMap.get(user.id) || 0,
       isFollowing: followingIds.has(user.id),
+      isOwnProfile: false, // в поиске исключаем себя, поэтому всегда false
+      createdAt: user.createdAt,
     }));
 
     this.logger.log(

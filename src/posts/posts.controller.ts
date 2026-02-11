@@ -105,7 +105,7 @@ export class PostsController {
   ) {
     const posts = await this.postsService.getMyPosts(user.id, {
       limit: pagination.limit,
-      offset: pagination.offset,
+      offset: pagination.getOffset(),
     });
     const enrichedPosts =
       await this.postsService.enrichPostsWithLikesAndComments(posts, user.id);
@@ -176,7 +176,7 @@ export class PostsController {
   ) {
     const comments = await this.postsService.getPostComments(postId, {
       limit: pagination.limit,
-      offset: pagination.offset,
+      offset: pagination.getOffset(),
     });
     return comments.map((c) => this.toCommentDto(c));
   }
@@ -220,7 +220,7 @@ export class PostsController {
   ) {
     const posts = await this.postsService.getUserPosts(userId, {
       limit: pagination.limit,
-      offset: pagination.offset,
+      offset: pagination.getOffset(),
     });
     const enrichedPosts =
       await this.postsService.enrichPostsWithLikesAndComments(posts, user.id);

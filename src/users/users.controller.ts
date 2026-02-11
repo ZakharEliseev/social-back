@@ -61,7 +61,23 @@ export class UsersController {
     @Query() query: SearchUsersQueryDto,
     @CurrentUser() user: CurrentUserPayload,
   ) {
-    return this.usersService.searchUsers({ q: query.q, activeUserId: user.id });
+    const users = await this.usersService.searchUsers({
+      q: query.q,
+      activeUserId: user.id,
+    });
+    return users.map((u) => ({
+      id: u.id,
+      username: u.username,
+      email: u.email,
+      bio: u.bio,
+      avatar: u.avatar,
+      postsCount: u.postsCount,
+      followersCount: u.followersCount,
+      followingCount: u.followingCount,
+      isFollowing: u.isFollowing,
+      isOwnProfile: u.isOwnProfile,
+      createdAt: u.createdAt.toISOString(),
+    }));
   }
 
   @Post(':id/follow')

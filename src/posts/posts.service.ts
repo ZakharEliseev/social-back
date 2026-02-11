@@ -61,7 +61,7 @@ export class PostsService {
     const posts = await this.postRepository.find({
       where: { authorId: userId },
       relations: ['author'],
-      order: { createdAt: 'DESC' },
+      order: { createdAt: 'DESC', id: 'DESC' },
       take: options?.limit ?? 20,
       skip: options?.offset ?? 0,
     });
@@ -83,7 +83,7 @@ export class PostsService {
     const posts = await this.postRepository.find({
       where: { authorId: userId },
       relations: ['author'],
-      order: { createdAt: 'DESC' },
+      order: { createdAt: 'DESC', id: 'DESC' },
       take: options?.limit ?? 20,
       skip: options?.offset ?? 0,
     });
@@ -100,7 +100,7 @@ export class PostsService {
 
     const posts = await this.postRepository.find({
       relations: ['author'],
-      order: { createdAt: 'DESC' },
+      order: { createdAt: 'DESC', id: 'DESC' },
       take: limit,
       skip: offset,
     });
@@ -127,8 +127,10 @@ export class PostsService {
         { userId },
       )
       .orderBy('post.created_at', 'DESC')
+      .addOrderBy('post.id', 'DESC') // Дополнительная сортировка для стабильности
       .take(limit)
       .skip(offset)
+      .distinct(true) // Убираем возможные дубликаты
       .getMany();
 
     this.logger.log(
@@ -210,7 +212,7 @@ export class PostsService {
     const comments = await this.commentRepository.find({
       where: { postId },
       relations: ['user'],
-      order: { createdAt: 'DESC' },
+      order: { createdAt: 'DESC', id: 'DESC' },
       take: options?.limit ?? 50,
       skip: options?.offset ?? 0,
     });
